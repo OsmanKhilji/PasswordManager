@@ -1,0 +1,65 @@
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class PasswordManagerAddEntry {
+    private HashMap<String, String> passwordEntries;
+
+    public PasswordManagerAddEntry() {
+        passwordEntries = new HashMap<>();
+    }
+
+    public void addEntry(String site, String password) {
+        passwordEntries.put(site, password);
+        System.out.println("Entry added: " + site);
+    }
+
+    public String getEntry(String site) {
+        return passwordEntries.get(site);
+    }
+
+    public static void main(String[] args) {
+        PasswordManagerAddEntry manager = new PasswordManagerAddEntry();
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\nPassword Manager Menu:");
+            System.out.println("1) Add entry");
+            System.out.println("2) Retrieve entry");
+            System.out.println("3) Exit");
+            System.out.print("> ");
+
+            String choice = scanner.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter site name: ");
+                    String site = scanner.nextLine().trim();
+                    System.out.print("Enter password: ");
+                    String password = scanner.nextLine().trim();
+                    manager.addEntry(site, password);
+                    break;
+
+                case "2":
+                    System.out.print("Enter site to retrieve: ");
+                    String lookup = scanner.nextLine().trim();
+                    String found = manager.getEntry(lookup);
+                    if (found != null) {
+                        System.out.println("Password for " + lookup + ": " + found);
+                    } else {
+                        System.out.println("No entry found for " + lookup);
+                    }
+                    break;
+
+                case "3":
+                    running = false;
+                    System.out.println("Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice; please enter 1, 2, or 3.");
+            }
+        }
+
+        scanner.close();
+    }
+}
