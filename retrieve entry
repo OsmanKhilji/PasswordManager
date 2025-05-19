@@ -17,6 +17,26 @@ public class PasswordManagerAddEntry {
         return passwordEntries.get(site);
     }
 
+    public void removeEntry(String site) {
+        if (passwordEntries.containsKey(site)) {
+            passwordEntries.remove(site);
+            System.out.println("Entry removed: " + site);
+        } else {
+            System.out.println("No entry found for " + site);
+        }
+    }
+
+    public void listEntries() {
+        if (passwordEntries.isEmpty()) {
+            System.out.println("No entries saved.");
+        } else {
+            System.out.println("Saved sites:");
+            for (String site : passwordEntries.keySet()) {
+                System.out.println(" - " + site);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         PasswordManagerAddEntry manager = new PasswordManagerAddEntry();
         Scanner scanner = new Scanner(System.in);
@@ -26,7 +46,9 @@ public class PasswordManagerAddEntry {
             System.out.println("\nPassword Manager Menu:");
             System.out.println("1) Add entry");
             System.out.println("2) Retrieve entry");
-            System.out.println("3) Exit");
+            System.out.println("3) Delete entry");
+            System.out.println("4) List all entries");
+            System.out.println("5) Exit");
             System.out.print("> ");
 
             String choice = scanner.nextLine().trim();
@@ -51,12 +73,22 @@ public class PasswordManagerAddEntry {
                     break;
 
                 case "3":
+                    System.out.print("Enter site to delete: ");
+                    String toDelete = scanner.nextLine().trim();
+                    manager.removeEntry(toDelete);
+                    break;
+
+                case "4":
+                    manager.listEntries();
+                    break;
+
+                case "5":
                     running = false;
                     System.out.println("Goodbye!");
                     break;
 
                 default:
-                    System.out.println("Invalid choice; please enter 1, 2, or 3.");
+                    System.out.println("Invalid choice; please enter 1–5.");
             }
         }
 
