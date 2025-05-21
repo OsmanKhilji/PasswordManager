@@ -1,0 +1,97 @@
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class PasswordManagerAddEntry {
+    private HashMap<String, String> passwordEntries;
+
+    public PasswordManagerAddEntry() {
+        passwordEntries = new HashMap<>();
+    }
+
+    public void addEntry(String site, String password) {
+        passwordEntries.put(site, password);
+        System.out.println("Entry added: " + site);
+    }
+
+    public String getEntry(String site) {
+        return passwordEntries.get(site);
+    }
+
+    public void removeEntry(String site) {
+        if (passwordEntries.containsKey(site)) {
+            passwordEntries.remove(site);
+            System.out.println("Entry removed: " + site);
+        } else {
+            System.out.println("No entry found for " + site);
+        }
+    }
+
+    public void listEntries() {
+        if (passwordEntries.isEmpty()) {
+            System.out.println("No entries saved.");
+        } else {
+            System.out.println("Saved sites:");
+            for (String site : passwordEntries.keySet()) {
+                System.out.println(" - " + site);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        PasswordManagerAddEntry manager = new PasswordManagerAddEntry();
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\nPassword Manager Menu:");
+            System.out.println("1) Add entry");
+            System.out.println("2) Retrieve entry");
+            System.out.println("3) Delete entry");
+            System.out.println("4) List all entries");
+            System.out.println("5) Exit");
+            System.out.print("> ");
+
+            String choice = scanner.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter site name: ");
+                    String site = scanner.nextLine().trim();
+                    System.out.print("Enter password: ");
+                    String password = scanner.nextLine().trim();
+                    manager.addEntry(site, password);
+                    break;
+
+                case "2":
+                    System.out.print("Enter site to retrieve: ");
+                    String lookup = scanner.nextLine().trim();
+                    String found = manager.getEntry(lookup);
+                    if (found != null) {
+                        System.out.println("Password for " + lookup + ": " + found);
+                    } else {
+                        System.out.println("No entry found for " + lookup);
+                    }
+                    break;
+
+                case "3":
+                    System.out.print("Enter site to delete: ");
+                    String toDelete = scanner.nextLine().trim();
+                    manager.removeEntry(toDelete);
+                    break;
+
+                case "4":
+                    manager.listEntries();
+                    break;
+
+                case "5":
+                    running = false;
+                    System.out.println("Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice; please enter 1–5.");
+            }
+        }
+
+        scanner.close();
+    }
+}
